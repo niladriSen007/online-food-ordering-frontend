@@ -1,10 +1,8 @@
-import { lazy, Suspense, useMemo } from "react"
+import { lazy, Suspense } from "react"
 import { RoughNotation } from "react-rough-notation"
-import { restaurants } from "../utils/restaurants"
+import MultipleItemsCarousel from "../components/carousel/MultiItemCarousel"
 import { HomeSkeletonLoader } from "../components/loader/HomeSkeletonLoader"
-const MultipleItemsCarousel = lazy(() =>
-  import("../components/carousel/MultiItemCarousel")
-)
+import { restaurants } from "../utils/restaurants"
 const RestaurantCard = lazy(() =>
   import("../components/Restaurant/RestaurantCard")
 )
@@ -14,7 +12,6 @@ const Advertisement = lazy(() =>
 const Footer = lazy(() => import("../components/Footer/Footer"))
 
 const Home = () => {
-  const memoizedRestaurants = useMemo(() => restaurants, [restaurants])
   return (
     <Suspense fallback={<HomeSkeletonLoader />}>
       <div className="bg-[#f32563] h-[88vh] py-16">
@@ -72,7 +69,7 @@ const Home = () => {
               Order From Our Handpicked Favorites
             </h1>
             <div className="flex flex-wrap items-center justify-around ">
-              {memoizedRestaurants?.map((item, i) => (
+              {restaurants?.map((item, i) => (
                 <RestaurantCard data={item} index={i} key={i} />
               ))}
             </div>

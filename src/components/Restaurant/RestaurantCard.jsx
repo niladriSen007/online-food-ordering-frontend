@@ -1,19 +1,26 @@
 /* eslint-disable no-unused-vars */
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import { useNavigate } from "react-router-dom"
-import { Card, Chip, IconButton } from "@mui/material"
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import { memo,lazy } from "react"
+const Chip = lazy(() => import("@mui/material/Chip"))
+const IconButton = lazy(() => import("@mui/material/IconButton"))
+const FavoriteIcon = lazy(() => import("@mui/icons-material/Favorite"))
+const FavoriteBorderIcon = lazy(() => import("@mui/icons-material/FavoriteBorder"))
+const LocalOfferIcon = lazy(() => import("@mui/icons-material/LocalOffer"))
 import PropTypes from "prop-types"
-import { memo } from "react"
-import LocalOfferIcon from "@mui/icons-material/LocalOffer"
+import { useNavigate } from "react-router-dom"
 
 const RestaurantCard = memo(function RestaurantCard({ data, index }) {
   const navigate = useNavigate()
 
+  const navigateToRestaurant = () => {
+    if (data.open)
+      /*     navigate(`/resturant/${data.address.city}/${data.name}/${data.id}`); */
+      navigate(`/resturant/${data.city}/${data.name}/${data.id}`)
+  }
+
   return (
     <div className="m-5 w-[18rem]  shadow-2xl rounded-b-xl pb-6">
       <div
-        /*    onClick={navigateToRestaurant} */
+        onClick={navigateToRestaurant}
         className={`${
           data?.open ? "cursor-pointer" : "cursor-not-allowed"
         }  relative `}

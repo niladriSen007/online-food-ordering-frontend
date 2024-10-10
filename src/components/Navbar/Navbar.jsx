@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
-import PersonIcon from "@mui/icons-material/Person"
-import SearchIcon from "@mui/icons-material/Search"
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
-import { Avatar, Badge, IconButton, Menu, MenuItem } from "@mui/material"
-import { pink } from "@mui/material/colors"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { lazy, memo, useState } from "react"
+const PersonIcon = lazy(() => import("@mui/icons-material/Person"))
+const SearchIcon = lazy(() => import("@mui/icons-material/Search"))
+const ShoppingCartIcon = lazy(() => import("@mui/icons-material/ShoppingCart"))
+const Badge = lazy(() => import("@mui/material/Badge"))
+const IconButton = lazy(() => import("@mui/material/IconButton"))
+const Icon = lazy(() => import("./Icon"))
+const Avatar = lazy(() => import("./Avatar"))
+const ShowOrHide = lazy(() => import("../common/ShowOrHide"))
 import { RoughNotation } from "react-rough-notation"
+import { useNavigate } from "react-router-dom"
 
-const Navbar = () => {
+const Navbar = memo(function MemoizedNavbar() {
   const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = useState()
@@ -26,7 +29,7 @@ const Navbar = () => {
   const navigateToProfile = (e) => {
     auth.user?.role === "ROLE_ADMIN" ||
     auth.user?.role === "ROLE_RESTAURANT_OWNER"
-      ? navigate("/admin/restaurant")
+      ? navigate("/admin/resturant")
       : navigate("/my-profile")
   }
 
@@ -60,36 +63,22 @@ const Navbar = () => {
       </div>
       <div className="flex items-center space-x-2 lg:space-x-10">
         <div className="">
-          <IconButton onClick={() => navigate("/search")}>
-            <SearchIcon sx={{ fontSize: "1.5rem", color: "white" }} />
-          </IconButton>
+          <Icon
+            onclick={() => navigate("/search")}
+            icon={<SearchIcon sx={{ fontSize: "1.5rem", color: "white" }} />}
+          />
         </div>
         <div className="flex items-center space-x-2">
-          {auth.user?.userName ? (
-            <span
-              id="demo-positioned-button"
-              aria-controls={open ? "demo-positioned-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              /*  onClick={
-                auth.user?.role === "ROLE_ADMIN"
-                  ? handleOpenMenu
-                  : navigateToProfile
-              } */
-              className=" font-semibold cursor-pointer"
-            >
-              <Avatar
-                sx={{ bgcolor: "white", color: pink.A400 }}
-                className="bg-white"
-              >
-                {auth?.user?.userName?.at(0).toUpperCase()}
-              </Avatar>
-            </span>
-          ) : (
-            <IconButton onClick={() => navigate("/account/login")}>
-              <PersonIcon sx={{ fontSize: "2rem", color: "white" }} />
-            </IconButton>
-          )}
+          <ShowOrHide
+            when={auth?.user?.userName}
+            child={<Avatar userName={auth?.user?.userName} />}
+            fallback={
+              <Icon
+                onclick={() => navigate("/account/login")}
+                icon={<PersonIcon sx={{ fontSize: "2rem", color: "white" }} />}
+              />
+            }
+          />
           {/*  <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -131,5 +120,5 @@ const Navbar = () => {
       {/*  <Auth handleClose={handleCloseAuthModel} /> */}
     </div>
   )
-}
+})
 export default Navbar
