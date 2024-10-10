@@ -49,7 +49,7 @@ export default class MultipleItemsCarousel extends Component {
       <div>
         <Slider {...settings}>
           {topMeals?.map((item, index) => (
-            <CarouselItem key={index} image={item.image} title={item.title} />
+            <CarouselItem key={index} image={item?.image} title={item?.title} />
           ))}
         </Slider>
       </div>

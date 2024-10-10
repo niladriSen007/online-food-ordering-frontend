@@ -1,8 +1,9 @@
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa"
+import { memo } from "react"
 
-const Footer = () => {
+const Footer = memo(function MemoizedFooter() {
   return (
     <motion.footer
       className="bg-gray-800 text-white p-6 text-center"
@@ -46,6 +47,6 @@ const Footer = () => {
       </div>
     </motion.footer>
   )
-}
+})
 
 export default Footer
